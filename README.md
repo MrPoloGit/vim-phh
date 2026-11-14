@@ -13,6 +13,12 @@ hand: `set runtimepath+=/path/to/vim-phh` in your `vimrc`, before
 `filetype on`/`syntax on` run). Needs `:filetype on` and `:syntax on`
 enabled, which most `vimrc`s already have.
 
+**Not listed anywhere.** This repo is pushed to
+`github.com/MrPoloGit/vim-phh`, usable today by any plugin manager that
+takes a plain git URL (`Plug 'MrPoloGit/vim-phh'`, Packer, vim-pathogen,
+etc.), but it isn't listed on vim.org, vimawesome, or any other curated
+index, nothing has been submitted anywhere.
+
 ## What's implemented (L0)
 
 - **Filetype detection** (`ftdetect/phh.vim`): `.phh`/`.phhs` → `phh`.
