@@ -73,7 +73,7 @@ hi def link phhEscape       SpecialChar
 let b:current_syntax = "phh"
 
 " NOT implemented: the `actions` array's action-notation sub-grammar
-" (phh/registry/actions.json; tree-sitter-phh-actions's own grammar;
+" (phh-data/registry/actions.json; tree-sitter-phh-actions's own grammar;
 " vscode-phh's actions-pair TextMate injection). This was attempted and
 " removed after real testing (test/synid_test.vim, and the more extensive
 " isolated experiments recorded in the commit/session history) showed a

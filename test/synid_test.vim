@@ -43,7 +43,7 @@ function! s:GroupAt(line, col)
 endfunction
 
 " 1. ftdetect + syntax load.
-execute 'edit ' . g:phh_root . 'phh/corpus/valid/antonius-dwan-ivey-2009.phh'
+execute 'edit ' . g:phh_root . 'phh-data/corpus/valid/antonius-dwan-ivey-2009.phh'
 call s:Check('ftdetect sets filetype=phh', &filetype ==# 'phh')
 call s:Check('syntax item defined (b:current_syntax)', get(b:, 'current_syntax', '') ==# 'phh')
 
@@ -63,10 +63,10 @@ call s:Check('line 9 col 20 (# Ivey, a real trailing TOML comment) is phhComment
 
 " 3. The bug class every other grammar in this project hit at least once:
 "    a literal '#' inside a quoted field value must stay inside the
-"    string, not start a comment. phh/corpus/valid/arieh-esposito-hui-
+"    string, not start a comment. phh-data/corpus/valid/arieh-esposito-hui-
 "    yockey-2019.phh's real `event` field (from phh-std/examples.rst) is
 "    the one fixture that actually exercises this.
-execute 'edit ' . g:phh_root . 'phh/corpus/valid/arieh-esposito-hui-yockey-2019.phh'
+execute 'edit ' . g:phh_root . 'phh-data/corpus/valid/arieh-esposito-hui-yockey-2019.phh'
 call s:Check('event field #58: "#" at col 26 stays inside the string, not phhComment',
       \ s:GroupAt(37, 26) ==# 'phhString')
 call s:Check('event field #58: col 20 ("Event") is also phhString',
@@ -86,9 +86,9 @@ call s:Check('action string content (e.g. "d" in "d dh p1...") is plain phhStrin
 "    filetype=phh + the syntax file applied, with no crash, the Vim
 "    analog of the "zero ERROR nodes" sweep every other grammar/tokenizer
 "    in this project ran across the whole corpus.
-for path in glob(g:phh_root . 'phh/corpus/valid/*.phh', 0, 1)
-      \ + glob(g:phh_root . 'phh/corpus/valid/*.phhs', 0, 1)
-      \ + glob(g:phh_root . 'phh/corpus/invalid/*.phh', 0, 1)
+for path in glob(g:phh_root . 'phh-data/corpus/valid/*.phh', 0, 1)
+      \ + glob(g:phh_root . 'phh-data/corpus/valid/*.phhs', 0, 1)
+      \ + glob(g:phh_root . 'phh-data/corpus/invalid/*.phh', 0, 1)
   execute 'edit ' . fnameescape(path)
   call s:Check(fnamemodify(path, ':t') . ': loads with filetype=phh and syntax applied',
         \ &filetype ==# 'phh' && get(b:, 'current_syntax', '') ==# 'phh')

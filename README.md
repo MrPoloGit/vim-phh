@@ -34,14 +34,14 @@ index, nothing has been submitted anywhere.
 No bespoke plugin here, a
 config snippet is enough since the client-side work is identical to any
 other LSP server. Point any general LSP client at `../phh-ls/build/phh-ls
-../phh/registry` for filetype `phh`. For
+../phh-data/registry` for filetype `phh`. For
 [vim-lsp](https://github.com/prabirshrestha/vim-lsp):
 
 ```vim
 if executable('phh-ls')
   au User lsp_setup call lsp#register_server({
       \ 'name': 'phh-ls',
-      \ 'cmd': {server_info->['/path/to/phh-ls/build/phh-ls', '/path/to/phh/registry']},
+      \ 'cmd': {server_info->['/path/to/phh-ls/build/phh-ls', '/path/to/phh-data/registry']},
       \ 'allowlist': ['phh'],
       \ 'root_uri': {server_info->lsp#utils#path_to_uri(fnamemodify(lsp#utils#get_buffer_path(), ':p:h'))},
       \ })
@@ -66,7 +66,7 @@ plain Vim via its separate node-based backend), add to `coc-settings.json`:
   "languageserver": {
     "phh": {
       "command": "/path/to/phh-ls/build/phh-ls",
-      "args": ["/path/to/phh/registry"],
+      "args": ["/path/to/phh-data/registry"],
       "filetypes": ["phh"]
     }
   }
@@ -76,7 +76,7 @@ plain Vim via its separate node-based backend), add to `coc-settings.json`:
 ## How this was verified, and what it ruled out
 
 `test/synid_test.vim` drives real Vim (`vim -N -u NONE -es`) against the
-real corpus (`../phh/corpus/`), reading back the actual resolved highlight
+real corpus (`../phh-data/corpus/`), reading back the actual resolved highlight
 group at specific positions via `synID()`/`synIDattr()`, not reading the
 syntax file and assuming it behaves as written. **23/23 checks pass.**
 This is also how the two limitations below were *found*, not guessed at.
@@ -96,7 +96,7 @@ caught a real bug: the snippet originally had no `root_uri`, and vim-lsp's
 own log showed it silently skipping initialization entirely as a result
 (`"ignore initialization lsp server due to empty root_uri"`). Fixed in the
 snippet above, and confirmed the `root_uri` callback itself resolves
-correctly (`file:///.../phh/corpus/valid`) for a real corpus file.
+correctly (`file:///.../phh-data/corpus/valid`) for a real corpus file.
 
 Getting *past* that point, confirming the full `initialize` handshake
 completes and a live hover/diagnostics round trip works, was not
